@@ -4,6 +4,8 @@ import { Admin } from '@/lib/adminModel';
 import { serialize } from 'cookie';
 import bcrypt from 'bcrypt';
 
+const SAME_SITE_COOKIE: 'strict' = 'strict'; // Correctly typed constant for sameSite
+
 export async function POST(req: NextRequest) {
   try {
     const { email, password, action } = await req.json();
@@ -51,7 +53,7 @@ export async function POST(req: NextRequest) {
         path: '/',
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict' as 'strict',
+        sameSite: SAME_SITE_COOKIE, // Use the correctly typed constant for sameSite
         maxAge: 60 * 60 * 24, // 1 day expiration
       };
 
