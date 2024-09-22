@@ -13,36 +13,24 @@ const userSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("Incoming Request Body:", body); // Log incoming request body
+    console.log("Incoming Request Body:", body);
 
-    // Validate request body using zod schema
-    const { email, password, action } = userSchema.parse(body);
+    // Temporarily bypass Zod validation
+    const { email, password, action } = body;
 
-    // Connect to the database
-    await dbConnect();
-
-    // Handle actions: register or login
-    if (action === 'register') {
-      return await handleRegister(email, password);
-    } else if (action === 'login') {
-      return await handleLogin(email, password);
+    if (action === 'login') {
+      return await handleLogin(email, password); // Use your existing login logic
+    } else if (action === 'register') {
+      return await handleRegister(email, password); // Use your existing register logic
     }
 
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   } catch (error) {
-    console.error('Error handling request:', error); // Log full error details
-
-    if (error instanceof z.ZodError) {
-      console.error("Validation Errors:", error.errors); // Log validation errors
-      return NextResponse.json({
-        error: 'Invalid input',
-        details: error.errors.map((err) => err.message),
-      }, { status: 400 });
-    }
-
+    console.error('Error handling request:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
+
 
 async function handleRegister(email: string, password: string) {
   const existingUser = await User.findOne({ email });
