@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); // Show loading state
+    setLoading(true);
 
     try {
       const res = await fetch('/api/auth', {
@@ -22,16 +23,16 @@ export default function LoginForm() {
       });
 
       if (res.ok) {
-        localStorage.setItem("userEmail", email); // Store email in local storage
+        localStorage.setItem('userEmail', email);
         router.push('/');
       } else {
         const data = await res.json();
         setError(data.error);
       }
-    } catch (error) {
-      setError('Network error. Please try again later.'); // Handle network error
+    } catch {
+      setError('Network error. Please try again later.');
     } finally {
-      setLoading(false); // Hide loading state
+      setLoading(false);
     }
   };
 
@@ -47,11 +48,9 @@ export default function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+          className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="absolute inset-y-0 right-4 flex items-center">
-          ✉️
-        </span>
+        <span className="absolute inset-y-0 right-4 flex items-center">✉️</span>
       </div>
 
       <div className="relative">
@@ -61,24 +60,21 @@ export default function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+          className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <span className="absolute inset-y-0 right-4 flex items-center">
-          🔒
-        </span>
+        <span className="absolute inset-y-0 right-4 flex items-center">🔒</span>
       </div>
 
       <button
         type="submit"
-        className={`w-full py-3 rounded-lg text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 ${
-          loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-        }`}
-        disabled={loading}>
+        className={`w-full py-3 rounded-lg text-sm font-semibold focus:outline-none transition duration-300 ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}
+        disabled={loading}
+      >
         {loading ? 'Logging in...' : 'Login'}
       </button>
 
       <p className="text-sm text-center text-gray-500">
-        Don't have an account? 
+        Don't have an account?{' '}
         <Link href="/register" className="text-blue-500 hover:underline">Sign up</Link>
       </p>
     </form>
