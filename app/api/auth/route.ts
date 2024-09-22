@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import { z } from 'zod';
 
 const userSchema = z.object({
-  email: z.string().email().min(1, 'Email is required'),
+  email: z.string().email('Invalid email format').min(1, 'Email is required'),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
   action: z.enum(['register', 'login']),
 });
@@ -13,24 +13,36 @@ const userSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("Incoming Request Body:", body);
+    console.log("Incoming Request Body:", body); // Log incoming request body
 
-    // Temporarily bypass Zod validation
-    const { email, password, action } = body;
+    // Validate request body using zod schema
+    const { email, password, action } = userSchema.parse(body);
 
-    if (action === 'login') {
-      return await handleLogin(email, password); // Use your existing login logic
-    } else if (action === 'register') {
-      return await handleRegister(email, password); // Use your existing register logic
+    // Connect to the database
+    await dbConnect();
+
+    // Handle actions: register or login
+    if (action === 'register') {
+      return await handleRegister(email, password);
+    } else if (action === 'login') {
+      return await handleLogin(email, password);
     }
 
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   } catch (error) {
-    console.error('Error handling request:', error);
+    console.error('Error handling request:', error); // Log full error details
+
+    if (error instanceof z.ZodError) {
+      console.error("Validation Errors:", error.errors); // Log validation errors
+      return NextResponse.json({
+        error: 'Invalid input',
+        details: error.errors.map(err => err.message), // Return detailed error messages
+      }, { status: 400 });
+    }
+
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
-
 
 async function handleRegister(email: string, password: string) {
   const existingUser = await User.findOne({ email });
