@@ -6,10 +6,11 @@ import { z } from 'zod';
 
 // Define schema for input validation
 const userSchema = z.object({
-  email: z.string().email().nonempty('Email is required'),
-  password: z.string().min(8, 'Password must be at least 8 characters long'),
+  email: z.string().email().min(1, 'Email is required'), // Ensures email is not empty
+  password: z.string().min(8, 'Password must be at least 8 characters long'), // Minimum 8 characters for password
   action: z.enum(['register', 'login']),
 });
+
 
 export async function POST(req: NextRequest) {
   try {
