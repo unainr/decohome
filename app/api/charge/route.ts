@@ -1,35 +1,28 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
+import { NextResponse } from 'next/server'; // Import Next.js response helper
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-06-20',
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    try {
-      const { paymentMethodId } = req.body;
+// The new API route handler for Next.js 13/14 in the app directory
+export async function POST(req: Request) {
+  try {
+    const { paymentMethodId } = await req.json(); // Parse the JSON from the request body
 
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 5000, // amount in cents
-        currency: 'usd',
-        payment_method: paymentMethodId,
-        confirm: true,
-      });
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 5000, // amount in cents
+      currency: 'usd',
+      payment_method: paymentMethodId,
+      confirm: true,
+    });
 
-      res.status(200).json({ success: true, paymentIntent });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        // Now you can safely access the message property
-        res.status(500).json({ error: error.message });
-      } else {
-        // If error is not an instance of Error, handle accordingly
-        res.status(500).json({ error: 'An unknown error occurred' });
-      }
+    return NextResponse.json({ success: true, paymentIntent }, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    } else {
+      return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 });
     }
-    
-  } else {
-    res.setHeader('Allow', 'POST');
-    res.status(405).end('Method Not Allowed');
   }
 }
