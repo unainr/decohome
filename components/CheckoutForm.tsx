@@ -2,15 +2,16 @@
 
 import { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const router = useRouter();
+  
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,10 +37,13 @@ const CheckoutForm = () => {
       return;
     }
 
+    // Replace this amount with the amount you're charging (in cents)
+    const amount = 1000; // Example: $10.00 = 1000 cents
+
     const response = await fetch('/api/charge', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentMethodId: paymentMethod?.id }),
+      body: JSON.stringify({ paymentMethodId: paymentMethod?.id, amount }),
     });
 
     const result = await response.json();
@@ -48,7 +52,7 @@ const CheckoutForm = () => {
       setError(result.error);
     } else {
       setSuccess(true);
-      router.push('/?checkout=success'); // Redirect to success page
+      router.push('/?checkout=success'); // Redirect to the homepage or success page
     }
 
     setProcessing(false);
@@ -58,10 +62,10 @@ const CheckoutForm = () => {
     <form onSubmit={handleSubmit}>
       <CardElement />
       <button type="submit" disabled={processing || !stripe}>
-        {processing ? 'Processing...' : 'Pay'}
+        {processing ? 'Processing...' : 'Pay $10'}
       </button>
-      {error && <div>{error}</div>}
-      {success && <div>Payment Successful!</div>}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {success && <div style={{ color: 'green' }}>Payment Successful!</div>}
     </form>
   );
 };

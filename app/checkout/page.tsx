@@ -1,8 +1,12 @@
-import React from 'react'
+"use client";
+
+import React from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '@/components/CheckoutForm';
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
 const Checkout = () => {
   return (
     <div>
@@ -11,7 +15,7 @@ const Checkout = () => {
         <CheckoutForm />
       </Elements>
     </div>
-  )
+  );
 }
 
-export default Checkout
+export default Checkout;
