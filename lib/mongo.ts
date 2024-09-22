@@ -19,10 +19,11 @@ const dbConnect = async () => {
         return cached.conn;
     }
 
-    // If a connection does not exist, check if a promise is already in progress
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
         };
 
         cached.promise = mongoose.connect(MONGODB_URL, opts).then((mongoose) => {
@@ -40,4 +41,4 @@ const dbConnect = async () => {
     return cached.conn;
 }
 
-export default dbConnect; // Make sure to export dbConnect
+export default dbConnect;
