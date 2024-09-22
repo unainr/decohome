@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AboutBanner = ({bannertitle , bannertext}:{bannertitle:any,bannertext:any}) => {
+const AboutBanner = ({bannertitle , bannertext}:{bannertitle:string,bannertext:string}) => {
   return (
     <div className="relative">
   <img

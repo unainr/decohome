@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 interface AdminNavbarProps {
 	email: string | null;
@@ -9,7 +8,6 @@ interface AdminNavbarProps {
 
 const AdminNavbar: React.FC<AdminNavbarProps> = ({ email }) => {
 	const router = useRouter();
-	const [menuOpen, setMenuOpen] = useState(false); // State for mobile responsiveness
 
 	const handleLogout = async () => {
 		// Clear the admin session cookie on logout

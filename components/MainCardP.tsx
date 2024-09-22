@@ -23,7 +23,6 @@ const MainCardP: React.FC<MainCardPProps> = ({
   price,
   compare,
   selectedProduct,
-  onProductSelect,
   onQuantityChange,
 }) => {
   const { addToCart } = useCart();
@@ -38,12 +37,15 @@ const MainCardP: React.FC<MainCardPProps> = ({
       productname,
       price,
       quantity,
+      productprice: 0,
+      name: undefined,
+      image: undefined
     });
     setQuantity(1); // Reset quantity after adding to cart
   };
 
   const increaseQuantity = () => {
-    setQuantity((prev:any) => {
+    setQuantity((prev:number) => {
       const newQuantity = prev + 1;
       onQuantityChange(id, newQuantity);
       return newQuantity;
@@ -51,7 +53,7 @@ const MainCardP: React.FC<MainCardPProps> = ({
   };
 
   const decreaseQuantity = () => {
-    setQuantity((prev:any) => {
+    setQuantity((prev:number) => {
       const newQuantity = Math.max(prev - 1, 1); // Prevent quantity from going below 1
       onQuantityChange(id, newQuantity);
       return newQuantity;

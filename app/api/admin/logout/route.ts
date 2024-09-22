@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { serialize } from 'cookie';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   // Clear the adminEmail cookie
   const response = NextResponse.json({ success: true, message: 'Logged out' });
   response.headers.set('Set-Cookie', serialize('adminEmail', '', {

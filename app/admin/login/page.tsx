@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import AdminLoginForm from '@/components/AdminLoginForm';
 
 const AdminLoginPage = () => {

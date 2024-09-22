@@ -18,9 +18,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       res.status(200).json({ success: true, paymentIntent });
-    } catch (error:any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        // Now you can safely access the message property
+        res.status(500).json({ error: error.message });
+      } else {
+        // If error is not an instance of Error, handle accordingly
+        res.status(500).json({ error: 'An unknown error occurred' });
+      }
     }
+    
   } else {
     res.setHeader('Allow', 'POST');
     res.status(405).end('Method Not Allowed');
