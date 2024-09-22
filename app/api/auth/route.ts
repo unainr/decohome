@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import { z } from 'zod';
 
 const userSchema = z.object({
-  email: z.string().email('Invalid email format').min(1, 'Email is required'),
+  email: z.string().email().min(1, 'Email is required'),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
   action: z.enum(['register', 'login']),
 });
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       console.error("Validation Errors:", error.errors); // Log validation errors
       return NextResponse.json({
         error: 'Invalid input',
-        details: error.errors.map(err => err.message), // Return detailed error messages
+        details: error.errors.map((err) => err.message),
       }, { status: 400 });
     }
 
