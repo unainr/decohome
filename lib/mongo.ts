@@ -6,18 +6,17 @@ if (!MONGODB_URL) {
   throw new Error("Please define the MONGODB_URL environment variable in .env.local");
 }
 
-// Declare an interface for the cached connection
 interface MongooseCache {
   conn: Connection | null;
   promise: Promise<Connection> | null;
 }
 
-// Assign globalThis to cache the connection
+// Declare a global variable to store the connection cache
 let cached: MongooseCache = (globalThis as any).mongoose || { conn: null, promise: null };
 
 if (!cached) {
   cached = { conn: null, promise: null };
-  (globalThis as any).mongoose = cached; // Assign to globalThis so it's reused across hot reloads
+  (globalThis as any).mongoose = cached;
 }
 
 const dbConnect = async (): Promise<Connection> => {
@@ -26,20 +25,16 @@ const dbConnect = async (): Promise<Connection> => {
   }
 
   if (!cached.promise) {
-    const options = {
-      bufferCommands: false,
-    };
-
-    // Now ensure the promise resolves to a `mongoose.Connection`
-    cached.promise = mongoose.connect(MONGODB_URL, options).then((mongooseInstance) => {
-      return mongooseInstance.connection; // Return the connection from Mongoose instance
+    // Initiate the connection without deprecated options
+    cached.promise = mongoose.connect(MONGODB_URL).then((mongooseInstance) => {
+      return mongooseInstance.connection;
     });
   }
 
   try {
     cached.conn = await cached.promise;
   } catch (error) {
-    cached.promise = null; // Reset promise in case of failure
+    cached.promise = null;
     throw error;
   }
 
