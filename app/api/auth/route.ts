@@ -4,16 +4,16 @@ import { User } from '@/lib/userModel';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 
-// Define schema for input validation using zod
 const userSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string().email().nonempty('Email is required'),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
   action: z.enum(['register', 'login']),
 });
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    console.log("Incoming Request Body:", body);
 
     // Validate request body using zod schema
     const { email, password, action } = userSchema.parse(body);
@@ -22,32 +22,33 @@ export async function POST(req: NextRequest) {
     await dbConnect();
 
     if (action === 'register') {
-      return handleRegister(email, password);
+      return await handleRegister(email, password);
     } else if (action === 'login') {
-      return handleLogin(email, password);
+      return await handleLogin(email, password);
     }
 
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   } catch (error) {
     console.error('Error handling request:', error);
+
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Invalid input', details: error.errors }, { status: 400 });
+      return NextResponse.json({
+        error: 'Invalid input',
+        details: error.errors.map(err => err.message),
+      }, { status: 400 });
     }
+
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
 async function handleRegister(email: string, password: string) {
-  // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return NextResponse.json({ error: 'User already exists' }, { status: 400 });
   }
 
-  // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Create and save the new user
   const newUser = new User({ email, password: hashedPassword });
   await newUser.save();
 
@@ -55,18 +56,15 @@ async function handleRegister(email: string, password: string) {
 }
 
 async function handleLogin(email: string, password: string) {
-  // Find user by email
   const user = await User.findOne({ email });
   if (!user) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
-  // Check password validity
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
-  // Successful login response (consider adding a JWT for authentication)
   return NextResponse.json({ success: true, message: 'Login successful' }, { status: 200 });
 }
