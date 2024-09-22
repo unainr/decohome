@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 // Declare global types for mongoose in a separate file (e.g., global.d.ts) or in the same file
 declare global {
-    var mongoose: {
+    const mongoose: {
       conn: any | null;
       promise: Promise<any> | null;
     };

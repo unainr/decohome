@@ -39,7 +39,7 @@ export default function RegisterForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+        className="w-full px-4 py-3 border rounded-lg text-sm  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
       />
       <span className="absolute inset-y-0 right-4 flex items-center">
         ✉️
@@ -53,7 +53,7 @@ export default function RegisterForm() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
-        className="w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+        className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
       />
       <span className="absolute inset-y-0 right-4 flex items-center">
         🔒
