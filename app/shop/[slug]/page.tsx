@@ -30,12 +30,15 @@ const Page = ({ params }: any) => {
 	// Handle adding the product to the cart
 	const handleAddToCart = () => {
 		addToCart({
-			id: product.id,
-			productimg: product.productimg,
-			productname: product.productname,
-			price: product.price,
-			quantity,
-		});
+      id: product.id,
+      productimg: product.productimg,
+      productname: product.productname,
+      price: product.price,
+      quantity,
+      productprice: 0,
+      name: undefined,
+      image: undefined
+    });
 	};
 
 	const increaseQuantity = () => {
@@ -129,12 +132,15 @@ const Page = ({ params }: any) => {
 									variant={"outline"}
 									onClick={() =>
 										addToCart({
-											id: relatedProduct.id,
-											productimg: relatedProduct.productimg,
-											productname: relatedProduct.productname,
-											price: relatedProduct.price,
-											quantity: 1,
-										})
+                      id: relatedProduct.id,
+                      productimg: relatedProduct.productimg,
+                      productname: relatedProduct.productname,
+                      price: relatedProduct.price,
+                      quantity: 1,
+                      productprice: 0,
+                      name: undefined,
+                      image: undefined
+                    })
 									}>
 									Add to Cart
 								</Button>
