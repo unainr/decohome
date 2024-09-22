@@ -4,18 +4,16 @@ import { User } from '@/lib/userModel';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 
-// Define schema for input validation
 const userSchema = z.object({
-  email: z.string().email().min(1, 'Email is required'), // Ensures email is not empty
-  password: z.string().min(8, 'Password must be at least 8 characters long'), // Minimum 8 characters for password
+  email: z.string().email().min(1, 'Email is required'),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
   action: z.enum(['register', 'login']),
 });
-
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("Incoming Request Body:", body);
+    console.log("Incoming Request Body:", body); // Log incoming request body
 
     // Validate request body using zod schema
     const { email, password, action } = userSchema.parse(body);
@@ -32,12 +30,13 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   } catch (error) {
-    console.error('Error handling request:', error);
+    console.error('Error handling request:', error); // Log full error details
 
     if (error instanceof z.ZodError) {
+      console.error("Validation Errors:", error.errors); // Log validation errors
       return NextResponse.json({
         error: 'Invalid input',
-        details: error.errors.map((err) => err.message), // Detailed validation errors
+        details: error.errors.map((err) => err.message),
       }, { status: 400 });
     }
 
