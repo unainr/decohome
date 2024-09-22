@@ -1,12 +1,5 @@
 import mongoose from 'mongoose';
-// Declare global types for mongoose in a separate file (e.g., global.d.ts) or in the same file
-declare global {
-    const mongoose: {
-      conn: any | null;
-      promise: Promise<any> | null;
-    };
-  }
-  
+
 const MONGODB_URL = process.env.MONGODB_URL;
 
 if (!MONGODB_URL) {
@@ -14,12 +7,12 @@ if (!MONGODB_URL) {
         "Please define the MONGODB_URL environment variable inside .env.local"
     );
 }
-let cached = global.mongoose;
+
+let cached = (global).mongoose;
 
 if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null };
+    cached = (global).mongoose = { conn: null, promise: null };
 }
-
 
 const dbConnect = async () => {
     if (cached.conn) {

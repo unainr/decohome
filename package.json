@@ -47,6 +47,7 @@
     "@types/cookie": "^0.6.0",
     "@types/formidable": "^3.4.5",
     "@types/js-cookie": "^3.0.6",
+    "@types/mongoose": "^5.11.96",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
