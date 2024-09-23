@@ -30,8 +30,8 @@ export async function POST(req: Request) {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_DOMAIN}`, // Redirect to home with success
-      cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}`, // Redirect to home with cancel
+      success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/?checkout=success`, // Redirect to home with success
+      cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/?checkout=cancel`, // Redirect to home with cancel
     });
 
     // Return session URL for redirecting to Stripe Checkout
