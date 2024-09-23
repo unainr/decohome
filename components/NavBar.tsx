@@ -317,8 +317,13 @@ const Navbar = () => {
 
 													<Link
 														className="text-gray-500 transition hover:text-gray-700"
-														href="/product">
-														Product
+														href="/shop">
+														Shop
+													</Link>
+                          <Link
+														className="text-gray-500 transition hover:text-gray-700"
+														href="/designer">
+														designer
 													</Link>
                           {userEmail ? (
                 <>
