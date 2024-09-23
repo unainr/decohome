@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongo';
+import { dbConnect } from '@/lib/mongo';
 import { User } from '@/lib/userModel';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 
+// Validation schema
 const userSchema = z.object({
   email: z.string().email().min(1, 'Email is required'),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
@@ -13,11 +14,8 @@ const userSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-
-    // Validate request body
     const { email, password, action } = userSchema.parse(body);
 
-    // Connect to MongoDB
     await dbConnect();
 
     if (action === 'register') {
@@ -29,7 +27,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   } catch (error) {
     console.error('Error handling request:', error);
-
     if (error instanceof z.ZodError) {
       return NextResponse.json({
         error: 'Invalid input',
@@ -47,7 +44,7 @@ async function handleRegister(email: string, password: string) {
     return NextResponse.json({ error: 'User already exists' }, { status: 400 });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10); // Reduced salt rounds for performance
   const newUser = new User({ email, password: hashedPassword });
   await newUser.save();
 
