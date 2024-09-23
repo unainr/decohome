@@ -52,7 +52,7 @@ const CheckoutForm = () => {
       setError(result.error);
     } else {
       setSuccess(true);
-      router.push('/?checkout=success'); // Redirect to the homepage or success page
+      router.push('/'); // Redirect to the homepage or success page
     }
 
     setProcessing(false);
