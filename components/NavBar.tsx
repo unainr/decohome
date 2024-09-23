@@ -326,93 +326,94 @@ const Navbar = () => {
 														designer
 													</Link>
                           <Sheet>
-                  <SheetTrigger asChild>
-                    <div className="relative cursor-pointer">
-                      <ShoppingBag className="h-6 w-6" />
-                      {isMounted && cartItems.length > 0 && (
-                        <span className="absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-red-500 rounded-full">
-                          {cartItems.length}
-                        </span>
-                      )}
-                    </div>
-                  </SheetTrigger>
-                  <SheetContent className="p-6 rounded-lg shadow-lg max-w-md">
-                    <SheetHeader>
-                      <SheetTitle className="text-lg font-bold text-gray-800 mb-4">
-                        Shopping Cart
-                      </SheetTitle>
-                    </SheetHeader>
-                    <div>
-                      {cartItems.length > 0 ? (
-                        <>
-                          <ul className="space-y-6 divide-y divide-gray-200">
-                            {cartItems.map((item) => (
-                              <li key={item.id} className="flex justify-between items-center py-4">
-                                <div className="flex items-center space-x-4">
-                                  <img
-                                    src={item.productimg}
-                                    alt={item.productname}
-                                    className="w-16 h-16 rounded-md object-cover border border-gray-300"
-                                  />
-                                  <div>
-                                    <h3 className="text-sm font-medium text-gray-700">
-                                      {item.productname}
-                                    </h3>
-                                    <p className="text-xs text-gray-500">
-                                      Rs {item.price} x {item.quantity}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                  <div className="flex items-center border border-gray-300 rounded-md">
-                                    <button
-                                      onClick={() => decreaseQuantity(item.id)}
-                                      className="px-2 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-l-md"
-                                    >
-                                      -
-                                    </button>
-                                    <span className="px-3 text-sm font-medium">{item.quantity}</span>
-                                    <button
-                                      onClick={() => increaseQuantity(item.id)}
-                                      className="px-2 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-r-md"
-                                    >
-                                      +
-                                    </button>
-                                  </div>
-                                  <button
-                                    onClick={() => removeFromCart(item.id)}
-                                    className="text-red-500 hover:text-red-600"
-                                  >
-                                    Remove
-                                  </button>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
+  <SheetTrigger asChild>
+    <div className="relative cursor-pointer">
+      <ShoppingBag className="h-6 w-6" />
+      {isMounted && cartItems.length > 0 && (
+        <span className="absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-red-500 rounded-full">
+          {cartItems.length}
+        </span>
+      )}
+    </div>
+  </SheetTrigger>
+  <SheetContent className="p-6 rounded-lg shadow-lg max-w-md w-full">
+    <SheetHeader>
+      <SheetTitle className="text-lg font-bold text-gray-800 mb-4">
+        Shopping Cart
+      </SheetTitle>
+    </SheetHeader>
+    <div>
+      {cartItems.length > 0 ? (
+        <>
+          <ul className="space-y-6 divide-y divide-gray-200">
+            {cartItems.map((item) => (
+              <li key={item.id} className="flex flex-col sm:flex-row justify-between items-center py-4">
+                <div className="flex items-center space-x-4 w-full">
+                  <img
+                    src={item.productimg}
+                    alt={item.productname}
+                    className="w-16 h-16 rounded-md object-cover border border-gray-300"
+                  />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-gray-700 truncate">
+                      {item.productname}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      Rs {item.price} x {item.quantity}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 mt-4 sm:mt-0">
+                  <div className="flex items-center border border-gray-300 rounded-md">
+                    <button
+                      onClick={() => decreaseQuantity(item.id)}
+                      className="px-2 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-l-md"
+                    >
+                      -
+                    </button>
+                    <span className="px-3 text-sm font-medium">{item.quantity}</span>
+                    <button
+                      onClick={() => increaseQuantity(item.id)}
+                      className="px-2 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-r-md"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-                          {/* Subtotal */}
-                          <div className="mt-6 pt-4 border-t border-gray-200">
-                            <p className="text-lg font-medium text-gray-700">
-                              Subtotal: Rs{" "}
-                              {cartItems.reduce(
-                                (total, item) => total + item.price * item.quantity,
-                                0
-                              )}
-                            </p>
-                            <Button onClick={handleCheckout} className="w-full mt-4 bg-teal-600 hover:bg-teal-500 text-white rounded-md py-2">
-                              Proceed to Checkout
-                            </Button>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="text-center text-gray-500">
-                          <p className="text-lg font-medium">Your cart is empty.</p>
-                          <p className="text-sm">Add items to your cart to get started.</p>
-                        </div>
-                      )}
-                    </div>
-                  </SheetContent>
-                </Sheet>
+          {/* Subtotal */}
+          <div className="mt-6 pt-4 border-t border-gray-200">
+            <p className="text-lg font-medium text-gray-700">
+              Subtotal: Rs{" "}
+              {cartItems.reduce(
+                (total, item) => total + item.price * item.quantity,
+                0
+              )}
+            </p>
+            <Button onClick={handleCheckout} className="w-full mt-4 bg-teal-600 hover:bg-teal-500 text-white rounded-md py-2">
+              Proceed to Checkout
+            </Button>
+          </div>
+        </>
+      ) : (
+        <div className="text-center text-gray-500">
+          <p className="text-lg font-medium">Your cart is empty.</p>
+          <p className="text-sm">Add items to your cart to get started.</p>
+        </div>
+      )}
+    </div>
+  </SheetContent>
+</Sheet>
+
                           {userEmail ? (
                 <>
                   <span className="text-gray-700">{userEmail}</span>
