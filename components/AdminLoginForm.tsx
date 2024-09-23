@@ -11,22 +11,31 @@ const AdminLoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage(""); // Clear previous messages
 
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, action: "login" }),
-    });
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, action: "login" }), // Include action "login"
+      });
 
-    const data = await res.json();
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || `Error: ${res.statusText}`);
+      }
 
-    if (data.success) {
-      setMessage("Login successful");
+      const data = await res.json();
 
-      // Dynamically push to the admin dashboard without page refresh
-      router.push("/admin/dashboard");
-    } else {
-      setMessage(data.error);
+      if (data.success) {
+        setMessage("Login successful");
+        // Redirect to admin dashboard
+        router.push("/admin/dashboard");
+      } else {
+        setMessage(data.error || "An unexpected error occurred.");
+      }
+    } catch (error) {
+      setMessage((error as Error).message);
     }
   };
 
