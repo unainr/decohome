@@ -16,7 +16,8 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, password, action } = userSchema.parse(body);
 
-    await dbConnect();
+    // Ensure MongoDB connection
+    const db = await dbConnect();
 
     if (action === 'register') {
       return await handleRegister(email, password);
@@ -25,9 +26,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error handling request:', error);
-
     if (error instanceof z.ZodError) {
       return NextResponse.json({
         error: 'Invalid input',
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       }, { status: 400 });
     }
 
-    return NextResponse.json({ error: `Server error: ${error.message || 'Unknown error'}` }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
