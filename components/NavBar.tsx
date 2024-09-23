@@ -322,7 +322,7 @@ const Navbar = () => {
 													</Link>
                           <Link
 														className="text-gray-500 transition hover:text-gray-700"
-														href="/designer">
+														href="/designers">
 														designer
 													</Link>
                           {userEmail ? (
