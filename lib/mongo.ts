@@ -9,7 +9,7 @@ if (!MONGODB_URL) {
 let cached = (global as any).mongoose;
 
 if (!cached) {
-    cached =(global as any).mongoose = { conn: null, promise: null };
+    cached = (global as any).mongoose = { conn: null, promise: null };
 }
 
 export async function dbConnect() {
@@ -20,7 +20,9 @@ export async function dbConnect() {
     if (!cached.promise) {
         cached.promise = mongoose.connect(MONGODB_URL, {
             bufferCommands: false,
-            maxPoolSize: 10, // Use connection pooling in production for better performance
+            maxPoolSize: 20, // Use larger pool size for better concurrency
+            socketTimeoutMS: 30000, // Set socket timeout
+            serverSelectionTimeoutMS: 5000, // Fail fast if server selection fails
         }).then((mongoose) => mongoose);
     }
 

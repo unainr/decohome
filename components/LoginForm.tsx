@@ -1,4 +1,3 @@
-// components/LoginForm.tsx
 'use client';
 
 import { useState } from 'react';
@@ -24,8 +23,10 @@ export default function LoginForm() {
             });
 
             if (res.ok) {
-                localStorage.setItem('userEmail', email);
                 router.push('/');
+                setTimeout(() => {
+                    localStorage.setItem('userEmail', email);  // Ensure this doesn't block navigation
+                }, 1000);
             } else {
                 const data = await res.json();
                 setError(data.error);
