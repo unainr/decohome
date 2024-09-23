@@ -23,7 +23,7 @@ export default function LoginForm() {
             });
 
             if (res.ok) {
-                router.prefetch('/');
+                router.refresh();
                 setTimeout(() => {
                     localStorage.setItem('userEmail', email);  // Ensure this doesn't block navigation
                 }, 1000);
