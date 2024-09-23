@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     const { email, password, action } = userSchema.parse(body);
 
     // Ensure MongoDB connection
-    await dbConnect();
+    const db = await dbConnect();
 
     if (action === 'register') {
       return await handleRegister(email, password);
