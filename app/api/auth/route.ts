@@ -16,7 +16,8 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, password, action } = userSchema.parse(body);
 
-    await dbConnect();
+    // Ensure MongoDB connection
+    const db = await dbConnect();
 
     if (action === 'register') {
       return await handleRegister(email, password);
@@ -44,7 +45,7 @@ async function handleRegister(email: string, password: string) {
     return NextResponse.json({ error: 'User already exists' }, { status: 400 });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10); // Reduced salt rounds for performance
+  const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new User({ email, password: hashedPassword });
   await newUser.save();
 
