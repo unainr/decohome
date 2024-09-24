@@ -4,6 +4,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Input } from "@/components/ui/input";
+import { Button } from './ui/button';
+
 
 export default function RegisterForm() {
     const [email, setEmail] = useState('');
@@ -33,32 +36,32 @@ export default function RegisterForm() {
             <h2 className="text-2xl font-bold text-center">Register</h2>
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <div className="relative">
-                <input
+                <Input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    
                 />
             </div>
             <div className="relative">
-                <input
+                <Input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  
                 />
             </div>
-            <button
+            <Button
                 type="submit"
-                className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-lg text-sm font-semibold focus:outline-none transition duration-300"
+                
             >
                 Register
-            </button>
-            <p className="text-sm text-center text-gray-500">
+            </Button>
+            <p className="text-sm text-center ">
                 Already have an account?{' '}
                 <Link href="/login" className="text-blue-500 hover:underline">Login</Link>
             </p>

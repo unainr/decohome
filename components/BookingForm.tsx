@@ -1,5 +1,7 @@
 "use client"
 import { useState } from 'react';
+import { Input } from "@/components/ui/input"
+import { Button } from './ui/button';
 
 interface BookingFormProps {
   designerId: string;
@@ -39,30 +41,27 @@ const BookingForm: React.FC<BookingFormProps> = ({ designerId }) => {
 
   return (
     <form onSubmit={handleSubmit} className=" rounded-lg border  p-6 shadow-md">
-    <div className="mb-4">
       <label htmlFor="userEmail" className="block text-sm font-semibold mb-1">Email:</label>
-      <input
-        type="email"
+
+    <div className="mb-4">
+      <Input type="email"
         id="userEmail"
         name="userEmail"
         value={formData.userEmail}
-        onChange={handleChange}
-        required
-        className="mt-1 block w-full p-3 border  rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-      />
+        onChange={handleChange} />
+
     </div>
   
     <div className="mb-4">
       <label htmlFor="appointmentDate" className="block text-sm font-semibold mb-1">Appointment Date:</label>
-      <input
-        type="date"
+      <Input  type="date"
         id="appointmentDate"
         name="appointmentDate"
         value={formData.appointmentDate}
         onChange={handleChange}
-        required
-        className="mt-1 block w-full p-3 border  rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-      />
+        required />
+
+   
     </div>
   
     <div className="mb-4">
@@ -72,18 +71,18 @@ const BookingForm: React.FC<BookingFormProps> = ({ designerId }) => {
         name="message"
         value={formData.message}
         onChange={handleChange}
-        className="mt-1 block w-full p-3 border  rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+        className="mt-1 block w-full p-3 border  rounded-lg focus:outline-none focus:ring "
        
       />
     </div>
   
-    <button
+    <Button
       type="submit"
       disabled={loading}
-      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition-colors duration-200"
+     
     >
       {loading ? 'Booking...' : 'Book Appointment'}
-    </button>
+    </Button>
   
     {response && (
       <p className="mt-4 text-green-600">{response.message}</p>

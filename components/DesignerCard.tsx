@@ -10,24 +10,33 @@ interface DesignerCardProps {
 
 const DesignerCard = ({ id, name, bio, image }: DesignerCardProps) => {
   return (
-   <div className="max-w-sm mx-auto bg-gradient-to-br rounded-lg shadow-lg overflow-hidden border transition-shadow duration-300 ease-in-out hover:shadow-2xl">
-  <img 
-    src={image} 
-    alt={name} 
-    className="h-48 w-full object-cover transition-transform duration-300 ease-in-out hover:scale-110"
-  />
-  <div className="p-6 flex flex-col">
-    <h2 className="text-2xl font-bold mb-1 hover:text-red-600 transition-colors duration-200">{name}</h2>
-    <p className=" text-sm mb-4 italic">{bio}</p>
-    <div className="mt-auto">
-    
+<div className="max-w-sm mx-auto rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+  <div className="relative">
+    <img 
+      src={image} 
+      alt={name} 
+      className="h-48 w-full object-cover object-center" // Responsive height with cover object
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex items-end p-4">
+      <h2 className=" text-white text-2xl font-bold">{name}</h2> {/* Bold title for emphasis */}
+    </div>
+  </div>
 
-    <Button asChild>
-  <Link  href={`/designers/${id}`} >View Profile</Link>
-</Button>
+  <div className="p-6 flex flex-col">
+    <p className=" text-base mb-4 italic">{bio}</p>
+    
+    <div className="flex justify-between items-center mt-auto space-x-3">
+      <Link href={`/designers/${id}`} passHref>
+        <Button > 
+          View Profile
+        </Button>
+      </Link>
+     
     </div>
   </div>
 </div>
+
+
 
   
 

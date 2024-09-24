@@ -200,17 +200,7 @@ const Navbar = () => {
 												Login
 											</Link>
 										</li>
-										<li>
-											<Link
-												href="/register"
-												className={
-													pathname === "/register"
-														? "text-red-600"
-														: "hover:text-red-600"
-												}>
-												Register
-											</Link>
-										</li>
+										
 									</>
 								)}
 								<li>
@@ -489,15 +479,7 @@ const Navbar = () => {
 																Login
 															</Link>
 
-															<Link
-																href="/register"
-																className={
-																	pathname === "/register"
-																		? "text-red-600"
-																		: "hover:text-red-600"
-																}>
-																Register
-															</Link>
+															
 														</>
 													)}
 

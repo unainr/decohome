@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Input } from "@/components/ui/input";
+import { Button } from './ui/button';
+
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -42,40 +45,40 @@ export default function LoginForm() {
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
       
       <div className="relative">
-        <input
+      <Input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+         
         />
-        <span className="absolute inset-y-0 right-4 flex items-center">✉️</span>
+       
       </div>
 
       <div className="relative">
-        <input
+      <Input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          
         />
-        <span className="absolute inset-y-0 right-4 flex items-center">🔒</span>
+       
       </div>
 
-      <button
+      <Button
         type="submit"
-        className={`w-full py-3 rounded-lg text-sm font-semibold focus:outline-none transition duration-300 ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}
+        className={`w-full py-3 rounded-lg text-sm font-semibold focus:outline-none transition duration-300 ${loading ? 'bg-gray-500' : ''}`}
         disabled={loading}
       >
         {loading ? 'Logging in...' : 'Login'}
-      </button>
+      </Button>
 
-      <p className="text-sm text-center text-gray-500">
+      <p className="text-sm text-center ">
         Don't have an account?{' '}
-        <Link href="/register" className="text-blue-500 hover:underline">Sign up</Link>
+        <Link href="/register" className=" hover:underline">Sign up</Link>
       </p>
     </form>
   );

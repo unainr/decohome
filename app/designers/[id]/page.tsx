@@ -1,5 +1,15 @@
 import BookingForm from '@/components/BookingForm';
 import PortfolioProjects from '@/components/PortfolioProjects';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import Link from 'next/link';
 
 // Sample designer data (replace with actual data fetching logic)
 const designers = {
@@ -86,23 +96,45 @@ const DesignerProfilePage = ({ params }: DesignerProfileProps) => {
   return (
     <div className="container mx-auto p-6">
     {/* Designer Profile */}
-    <div className="flex flex-col items-center  rounded-lg p-6 border transition-transform duration-200">
-      <img 
-        src={designer.image} 
-        alt={designer.name} 
-        className="h-64 w-64 object-cover rounded-full border-4 border-blue-300 mb-4" 
-      />
-      <h1 className="text-5xl font-extrabold  mb-2 text-center">{designer.name}</h1>
-      <p className="text-gray-600 text-lg mb-4 text-center">{designer.bio}</p>
-      <div className="flex items-center space-x-4 mb-4">
-        <button className="bg-blue-600 py-2 px-6 rounded-lg transition-colors duration-200 font-semibold hover:bg-blue-700">
-          Message
-        </button>
-        <button className=" py-2 px-6 rounded-lg transition-colors duration-200 font-semibold ">
-          Follow
-        </button>
-      </div>
-    </div>
+    <div className="flex flex-col items-center bg-gradient-to-r  p-6  max-w-md mx-auto lg:max-w-lg">
+  <img
+    src={designer.image}
+    alt={designer.name}
+    className="h-48 w-48 object-cover rounded-full border-4 shadow-lg mb-6"
+  />
+  <h1 className="text-4xl font-extrabold mb-2 text-center sm:text-5xl">
+    {designer.name}
+  </h1>
+  <p className="text-lg text-center mb-6 sm:text-xl">
+    {designer.bio}
+  </p>
+  
+  <div className="flex items-center space-x-4 mb-4">
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button >
+          Book Appointment
+        </Button>
+      </DialogTrigger>
+      <DialogContent >
+        <DialogHeader>
+          <DialogTitle >Book a Consultation</DialogTitle>
+          <DialogDescription >
+            Please fill out the form below to book your consultation.
+          </DialogDescription>
+        </DialogHeader>
+        <BookingForm designerId={designer.id.toString()} />
+      </DialogContent>
+    </Dialog>
+
+    <Link href={'/'}>
+      <Button >
+        Follow
+      </Button>
+    </Link>
+  </div>
+</div>
+
   
     {/* Portfolio Projects */}
     <div className="mt-8  rounded-lg border  p-6 transition-transform duration-200">
@@ -110,11 +142,10 @@ const DesignerProfilePage = ({ params }: DesignerProfileProps) => {
       <PortfolioProjects projects={designer.portfolio} />
     </div>
   
-    {/* Booking Form */}
-    <div className="mt-8  rounded-lg border  p-6 transition-transform duration-200">
-      <h3 className="text-4xl font-bold  mb-4 border-b-2 border-blue-600 pb-2">Book a Consultation</h3>
-      <BookingForm designerId={designer.id.toString()} />
-    </div>
+    
+
+
+   
   </div>
   
   
