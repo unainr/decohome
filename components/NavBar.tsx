@@ -127,7 +127,9 @@ const Navbar = () => {
 					<div className="flex-1 md:flex md:items-center md:gap-12">
 						<a className="block text-teal-600" href="#">
 							<span className="sr-only">Home</span>
+							<Link href={'/'}>
 							<img className="h-10 " src="/images/logo.png" alt="semo home" />
+							</Link>
 						</a>
 					</div>
 					<div className="md:flex md:items-center md:gap-12">
