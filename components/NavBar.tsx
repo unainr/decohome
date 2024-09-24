@@ -361,7 +361,7 @@ const Navbar = () => {
 													<Link
 														className="text-gray-500 transition hover:text-gray-700"
 														href="/designers">
-														designer
+														Designer
 													</Link>
 													<Sheet>
 														<SheetTrigger asChild>

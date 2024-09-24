@@ -9,7 +9,7 @@ const Footer = () => {
         {/* LOGO DIV */}
         <div>
           {/* LOGO */}
-          <img src="/images/logo.png" alt="semo home" />
+          <img className="h-10 " src="/images/logo.png" alt="semo home" />
 
           <p className="font-inter mt-4 max-w-80 text-base font-light">
           Our carefully curated collection blends elegance and quality, ensuring every piece brings joy and comfort to your home
